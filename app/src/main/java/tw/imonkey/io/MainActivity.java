@@ -70,7 +70,6 @@ public class MainActivity extends Activity {
         deviceId = settings.getString("deviceId", null);
         logCount = settings.getInt("logCount",0);
 
-
         if (memberEmail == null) {
             memberEmail = "test@po-po.com";
             deviceId = "RPI3_IO_test";
@@ -92,7 +91,7 @@ public class MainActivity extends Activity {
         mAlert= FirebaseDatabase.getInstance().getReference("/DEVICE/"+deviceId+"/alert");
         mLog=FirebaseDatabase.getInstance().getReference("/DEVICE/" + deviceId+"/LOG/");
         mXINPUT = FirebaseDatabase.getInstance().getReference("/DEVICE/" + deviceId+"/X/");
-        mYOUTPUT = FirebaseDatabase.getInstance().getReference("/DEVICE/" + deviceId+"/Y/");
+        mYOUTPUT = FirebaseDatabase.getInstance().getReference("/DEVICE/"+ deviceId+"/Y/");
         //Device's Users
         mUsers= FirebaseDatabase.getInstance().getReference("/DEVICE/"+deviceId+"/users/");
         mUsers.addValueEventListener(new ValueEventListener() {
@@ -216,21 +215,23 @@ public class MainActivity extends Activity {
         mYOUTPUT.child(outpin).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.child(outpin).getValue().equals(true)) {
-                    try {
-                        GPIOMap.get(outpin).setValue(true);
-                        alert(outpin+"="+true);
-                        log(outpin+"="+true);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    try {
-                        GPIOMap.get(outpin).setValue(false);
-                        log(outpin+"="+false);
-                        alert(outpin+"="+false);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                if (snapshot.child(outpin).getValue()!=null) {
+                    if (snapshot.child(outpin).getValue().equals(true)) {
+                        try {
+                            GPIOMap.get(outpin).setValue(true);
+                            alert(outpin + "=" + true);
+                            log(outpin + "=" + true);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        try {
+                            GPIOMap.get(outpin).setValue(false);
+                            log(outpin + "=" + false);
+                            alert(outpin + "=" + false);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
