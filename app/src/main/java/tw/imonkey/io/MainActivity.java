@@ -240,13 +240,30 @@ public class MainActivity extends Activity {
             public void onCancelled(DatabaseError databaseError) {}
         });
     }
-    private void alert(String message){
-        for (String email : users ) {
-                    NotifyUser.IIDPUSH(deviceId, email, "智慧機通知", message);
-                    NotifyUser.emailPUSH(deviceId, email, message);
-                    NotifyUser.SMSPUSH(deviceId,  email, message);
-        }
-      //  NotifyUser.topicsPUSH(deviceId, memberEmail, "智慧機通知", message);
+    private void alert(final String message){
+        mSETTINGS.child("notify").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+               if(snapshot.child("SMS").getValue()!=null) {
+                   for (String email : users) {
+                       NotifyUser.SMSPUSH(deviceId, email, message);
+                   }
+               }
+                if (snapshot.child("EMAIL").getValue() != null) {
+                    for (String email : users) {
+                        NotifyUser.emailPUSH(deviceId, email, message);
+                    }
+                }
+                if (snapshot.child("PUSH").getValue() != null) {
+                    for (String email : users) {
+                        NotifyUser.IIDPUSH(deviceId, email, "智慧機通知", message);
+                    }
+                    NotifyUser.topicsPUSH(deviceId, memberEmail, "智慧機通知", message);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
 
         alert.clear();
         alert.put("message","Device:"+message);
