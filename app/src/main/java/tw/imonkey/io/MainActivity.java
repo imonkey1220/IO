@@ -241,11 +241,11 @@ public class MainActivity extends Activity {
     }
     private void alert(String message){
         for (String email : users ) {
-            //        NotifyUser.IIDPUSH(deviceId, email, "智慧機通知", message);
-            //        NotifyUser.emailPUSH(deviceId, email, message);
-            //        NotifyUser.SMSPUSH(deviceId,  email, message);
+                    NotifyUser.IIDPUSH(deviceId, email, "智慧機通知", message);
+                    NotifyUser.emailPUSH(deviceId, email, message);
+                    NotifyUser.SMSPUSH(deviceId,  email, message);
         }
-        NotifyUser.topicsPUSH(deviceId, memberEmail, "智慧機通知", message);
+      //  NotifyUser.topicsPUSH(deviceId, memberEmail, "智慧機通知", message);
 
         alert.clear();
         alert.put("message","Device:"+message);
