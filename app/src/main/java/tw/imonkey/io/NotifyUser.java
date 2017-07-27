@@ -79,7 +79,7 @@ class NotifyUser {
             public void onDataChange(DataSnapshot snapshot) {
                 dataCount=(int)(snapshot.getChildrenCount());
                 if((dataCount-limit)>0) {
-                    mData.orderByKey().limitToFirst(dataCount - limit)
+                    mData.orderByKey().limitToFirst(dataCount - limit/2)
                             .addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot snapshot) {
