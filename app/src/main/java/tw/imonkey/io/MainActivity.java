@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
     Map<String, Object> log = new HashMap<>();
     Map<String, Object> alert = new HashMap<>();
     ArrayList<String> users = new ArrayList<>();
-    DatabaseReference mAlert, mLog, mXINPUT,mYOUTPUT,mUsers,presenceRef,connectedRef;
+    DatabaseReference mSETTINGS , mAlert, mLog, mXINPUT,mYOUTPUT,mUsers,presenceRef,connectedRef;
     int logCount ;
 
     public MySocketServer mServer;
@@ -88,10 +88,11 @@ public class MainActivity extends Activity {
             mAddTestDevice.setValue(addTest);
             startServer();
         }
-        mAlert= FirebaseDatabase.getInstance().getReference("/DEVICE/"+deviceId+"/alert");
-        mLog=FirebaseDatabase.getInstance().getReference("/DEVICE/" + deviceId+"/LOG/");
-        mXINPUT = FirebaseDatabase.getInstance().getReference("/DEVICE/" + deviceId+"/X/");
-        mYOUTPUT = FirebaseDatabase.getInstance().getReference("/DEVICE/"+ deviceId+"/Y/");
+        mSETTINGS = FirebaseDatabase.getInstance().getReference("/DEVICE/" + deviceId + "/SETTINGS");
+        mAlert= FirebaseDatabase.getInstance().getReference("/DEVICE/"+ deviceId + "/alert");
+        mLog=FirebaseDatabase.getInstance().getReference("/DEVICE/" + deviceId + "/LOG/");
+        mXINPUT = FirebaseDatabase.getInstance().getReference("/DEVICE/" + deviceId + "/X/");
+        mYOUTPUT = FirebaseDatabase.getInstance().getReference("/DEVICE/" + deviceId+ "/Y/");
         //Device's Users
         mUsers= FirebaseDatabase.getInstance().getReference("/DEVICE/"+deviceId+"/users/");
         mUsers.addValueEventListener(new ValueEventListener() {
