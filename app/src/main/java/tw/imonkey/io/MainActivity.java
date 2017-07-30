@@ -374,6 +374,7 @@ public class MainActivity extends Activity {
             Intent i;
             i = new Intent(this,MainActivity.class);
             startActivity(i);
+            alert("IO智慧機設定完成!");
         }
     }
 }
