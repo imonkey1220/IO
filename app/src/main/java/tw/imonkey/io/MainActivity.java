@@ -63,6 +63,37 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
+        deviceOnline();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+        if ( RESETGpio != null) {
+            try {
+                RESETGpio.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                RESETGpio = null;
+            }
+        }
+        for(String PiGPIO:GPIOMap.keySet()) {
+            if (GPIOMap.get(PiGPIO) != null) {
+                try {
+                    GPIOMap.get(PiGPIO).close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    GPIOMap.remove(PiGPIO);
+                }
+            }
+        }
+    }
+
+    private  void init(){
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Taipei"));
         EventBus.getDefault().register(this);
         SharedPreferences settings = getSharedPreferences(devicePrefs, Context.MODE_PRIVATE);
@@ -106,37 +137,6 @@ public class MainActivity extends Activity {
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
-        init();
-        deviceOnline();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-        if ( RESETGpio != null) {
-            try {
-                RESETGpio.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                RESETGpio = null;
-            }
-        }
-        for(String PiGPIO:GPIOMap.keySet()) {
-            if (GPIOMap.get(PiGPIO) != null) {
-                try {
-                    GPIOMap.get(PiGPIO).close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    GPIOMap.remove(PiGPIO);
-                }
-            }
-        }
-    }
-
-    private  void init(){
         PeripheralManagerService service = new PeripheralManagerService();
         try {
             RESETGpio = service.openGpio(RESET);
