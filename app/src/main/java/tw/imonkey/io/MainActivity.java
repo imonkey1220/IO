@@ -124,7 +124,6 @@ public class MainActivity extends Activity {
         mLog=FirebaseDatabase.getInstance().getReference("/DEVICE/" + deviceId + "/LOG/");
         mXINPUT = FirebaseDatabase.getInstance().getReference("/DEVICE/" + deviceId + "/X/");
         mYOUTPUT = FirebaseDatabase.getInstance().getReference("/DEVICE/" + deviceId+ "/Y/");
-        //Device's Users
         mUsers= FirebaseDatabase.getInstance().getReference("/DEVICE/"+deviceId+"/users/");
         mUsers.addValueEventListener(new ValueEventListener() {
             @Override
