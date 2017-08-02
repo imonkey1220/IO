@@ -53,8 +53,9 @@ public class MainActivity extends Activity {
     Map<String, Object> input = new HashMap<>();
     Map<String, Object> log = new HashMap<>();
     Map<String, Object> alert = new HashMap<>();
+    Map<String, Object> state = new HashMap<>();
     ArrayList<String> users = new ArrayList<>();
-    DatabaseReference mSETTINGS , mAlert, mLog, mXINPUT,mYOUTPUT,mUsers,presenceRef,connectedRef;
+    DatabaseReference mSETTINGS ,mState, mAlert, mLog, mXINPUT,mYOUTPUT,mUsers,presenceRef,connectedRef;
     int logCount ;
 
     public MySocketServer mServer;
@@ -120,6 +121,7 @@ public class MainActivity extends Activity {
             startServer();
         }
         mSETTINGS = FirebaseDatabase.getInstance().getReference("/DEVICE/" + deviceId + "/SETTINGS");
+        mState = FirebaseDatabase.getInstance().getReference("/DEVICE/"+ deviceId + "/state");
         mAlert= FirebaseDatabase.getInstance().getReference("/DEVICE/"+ deviceId + "/alert");
         mLog=FirebaseDatabase.getInstance().getReference("/DEVICE/" + deviceId + "/LOG/");
         mXINPUT = FirebaseDatabase.getInstance().getReference("/DEVICE/" + deviceId + "/X/");
@@ -272,6 +274,13 @@ public class MainActivity extends Activity {
         alert.put("message","Device:"+message);
         alert.put("timeStamp", ServerValue.TIMESTAMP);
         mAlert.setValue(alert);
+    }
+    private void state(String pin,String message){
+        state.clear();
+        state.put("message", message);
+        state.put("memberEmail", memberEmail);
+        state.put("timeStamp", ServerValue.TIMESTAMP);
+        mState.child(pin).setValue(log);
     }
     private void log(String message) {
         log.clear();
