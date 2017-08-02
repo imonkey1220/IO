@@ -179,6 +179,7 @@ public class MainActivity extends Activity {
                                 mXINPUT.child(GPIOName[index]).setValue(input);
                                 alert(GPIOName[index]+"="+GPIO[index].getValue());
                                 log(GPIOName[index]+"="+GPIO[index].getValue());
+                                state(GPIOName[index],GPIO[index].getValue());
 
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -223,6 +224,7 @@ public class MainActivity extends Activity {
                             GPIOMap.get(outpin).setValue(true);
                             alert(outpin + "=" + true);
                             log(outpin + "=" + true);
+                            state(outpin,true);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -231,6 +233,7 @@ public class MainActivity extends Activity {
                             GPIOMap.get(outpin).setValue(false);
                             log(outpin + "=" + false);
                             alert(outpin + "=" + false);
+                            state(outpin,false);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -275,12 +278,12 @@ public class MainActivity extends Activity {
         alert.put("timeStamp", ServerValue.TIMESTAMP);
         mAlert.setValue(alert);
     }
-    private void state(String pin,String message){
+    private void state(String pin,boolean message){
         state.clear();
         state.put("message", message);
         state.put("memberEmail", memberEmail);
         state.put("timeStamp", ServerValue.TIMESTAMP);
-        mState.child(pin).setValue(log);
+        mState.child(pin).setValue(state);
     }
     private void log(String message) {
         log.clear();
