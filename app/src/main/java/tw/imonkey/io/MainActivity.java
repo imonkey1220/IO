@@ -245,12 +245,16 @@ public class MainActivity extends Activity {
             public void onDataChange(DataSnapshot snapshot) {
                if(snapshot.child("SMS").getValue()!=null) {
                    for (String email : users) {
-                       NotifyUser.SMSPUSH(deviceId, email, message);
+                       if (!email.contains("test")) {
+                           NotifyUser.SMSPUSH(deviceId, email, message);
+                       }
                    }
                }
                 if (snapshot.child("EMAIL").getValue() != null) {
                     for (String email : users) {
-                        NotifyUser.emailPUSH(deviceId, email, message);
+                        if (!email.contains("test")) {
+                            NotifyUser.emailPUSH(deviceId, email, message);
+                        }
                     }
                 }
                 if (snapshot.child("PUSH").getValue() != null) {
@@ -370,10 +374,10 @@ public class MainActivity extends Activity {
             editor.putString("deviceId", mArray[1]);
             editor.apply();
             mServer.sendMessage("echo: " + message);
+            alert("IO智慧機設定完成!");
             Intent i;
             i = new Intent(this,MainActivity.class);
             startActivity(i);
-            alert("IO智慧機設定完成!");
         }
     }
 }
