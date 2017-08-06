@@ -280,9 +280,11 @@ public class MainActivity extends Activity {
     }
     private void state(String pin,boolean message){
         state.clear();
-        state.put("message", message);
         state.put("memberEmail", memberEmail);
+        state.put("pin",pin);
+        state.put("pinState", message);
         state.put("timeStamp", ServerValue.TIMESTAMP);
+
         mState.child(pin).setValue(state);
     }
     private void log(String message) {
