@@ -179,7 +179,7 @@ public class MainActivity extends Activity {
                                 mXINPUT.child(GPIOName[index]).setValue(input);
                                 alert(GPIOName[index]+"="+GPIO[index].getValue());
                                 log(GPIOName[index]+"="+GPIO[index].getValue());
-                                state(GPIOName[index],GPIO[index].getValue());
+                                state(GPIOName[index],"X",GPIO[index].getValue());
 
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -224,7 +224,7 @@ public class MainActivity extends Activity {
                             GPIOMap.get(outpin).setValue(true);
                             alert(outpin + "=" + true);
                             log(outpin + "=" + true);
-                            state(outpin,true);
+                            state(outpin,"Y",true);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -233,7 +233,7 @@ public class MainActivity extends Activity {
                             GPIOMap.get(outpin).setValue(false);
                             log(outpin + "=" + false);
                             alert(outpin + "=" + false);
-                            state(outpin,false);
+                            state(outpin,"Y",false);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -278,14 +278,14 @@ public class MainActivity extends Activity {
         alert.put("timeStamp", ServerValue.TIMESTAMP);
         mAlert.setValue(alert);
     }
-    private void state(String pin,boolean message){
+    private void state(String pin,String pinType,boolean message){
         state.clear();
         state.put("memberEmail", memberEmail);
         state.put("pin",pin);
+        state.put("piType",pinType);
         state.put("pinState", message);
         state.put("timeStamp", ServerValue.TIMESTAMP);
-
-        mState.child(pin).setValue(state);
+        mState.child(pin).updateChildren(state);
     }
     private void log(String message) {
         log.clear();
