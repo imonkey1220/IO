@@ -40,8 +40,8 @@ public class MainActivity extends Activity {
             //pin#    7    ,11     ,13     ,15     ,29    ,31    ,33     ,35
             //Name    X00  ,X01    ,X02    ,X03    ,X04   ,X05   ,X06    ,X07
                      "BCM18","BCM23","BCM24","BCM25","BCM12","BCM16","BCM20","BCM21"};
-            //pin#    12    ,16     ,18     ,24     ,32     ,36     ,38     ,40
-            //Name    Y00   ,Y01    ,Y02    ,Y03    ,Y04    ,Y05    ,Y06    ,Y07
+            //pin#    12    ,16     ,18     ,22      ,32     ,36     ,38     ,40
+            //Name    Y00   ,Y01    ,Y02    ,Y03     ,Y04    ,Y05    ,Y06    ,Y07
     String GPIOName[]={"X00","X01","X02","X03","X04","X05","X06","X07",
                         "Y00","Y01","Y02","Y03","Y04","Y05","Y06","Y07"};
     Gpio[] GPIO=new Gpio[16];
@@ -257,7 +257,7 @@ public class MainActivity extends Activity {
                }
                 if (snapshot.child("EMAIL").getValue() != null) {
                     for (String email : users) {
-                        if (!email.contains("test")) {
+                        if (!email.contains("test@po-po.com")) {
                             NotifyUser.emailPUSH(deviceId, email, message);
                         }
                     }
@@ -386,7 +386,7 @@ public class MainActivity extends Activity {
             editor.putString("deviceId", mArray[1]);
             editor.apply();
             mServer.sendMessage("echo: " + message);
-            alert("IO智慧機設定完成!");
+            alert("GPIO智慧機設定完成!");
             Intent i;
             i = new Intent(this,MainActivity.class);
             startActivity(i);
