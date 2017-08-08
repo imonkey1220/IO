@@ -55,7 +55,7 @@ public class MainActivity extends Activity {
     Map<String, Object> alert = new HashMap<>();
     Map<String, Object> state = new HashMap<>();
     ArrayList<String> users = new ArrayList<>();
-    DatabaseReference mSETTINGS ,mState, mAlert, mLog, mXINPUT,mYOUTPUT,mUsers,presenceRef,connectedRef;
+    DatabaseReference mSETTINGS ,mState, mAlert, mLog,mUsers,presenceRef,connectedRef;
     int logCount ;
 
     public MySocketServer mServer;
@@ -124,8 +124,6 @@ public class MainActivity extends Activity {
         mState = FirebaseDatabase.getInstance().getReference("/DEVICE/"+ deviceId + "/state");
         mAlert= FirebaseDatabase.getInstance().getReference("/DEVICE/"+ deviceId + "/alert");
         mLog=FirebaseDatabase.getInstance().getReference("/DEVICE/" + deviceId + "/LOG/");
-        mXINPUT = FirebaseDatabase.getInstance().getReference("/DEVICE/" + deviceId + "/X/");
-        mYOUTPUT = FirebaseDatabase.getInstance().getReference("/DEVICE/" + deviceId+ "/Y/");
         mUsers= FirebaseDatabase.getInstance().getReference("/DEVICE/"+deviceId+"/users/");
         mUsers.addValueEventListener(new ValueEventListener() {
             @Override
@@ -175,8 +173,6 @@ public class MainActivity extends Activity {
                                 input.put(GPIOName[index], GPIO[index].getValue());
                                 input.put("memberEmail", "Device");
                                 input.put("timeStamp", ServerValue.TIMESTAMP);
-                               // mXINPUT.child(GPIOName[index]).push().setValue(input);
-                                mXINPUT.child(GPIOName[index]).setValue(input);
                                 alert(GPIOName[index]+"="+GPIO[index].getValue());
                                 log(GPIOName[index]+"="+GPIO[index].getValue());
                                 state(GPIOName[index],"X",GPIO[index].getValue());
@@ -215,11 +211,11 @@ public class MainActivity extends Activity {
         }
     }
     private void mYOUTPUTListener(final String outpin){
-        mYOUTPUT.child(outpin).addValueEventListener(new ValueEventListener() {
+        mState.child(outpin+"/pinState/").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.child(outpin).getValue()!=null) {
-                    if (snapshot.child(outpin).getValue().equals(true)) {
+                if (snapshot.getValue()!=null) {
+                    if (snapshot.getValue().equals(true)) {
                         try {
                             GPIOMap.get(outpin).setValue(true);
                             alert(outpin + "=" + true);
@@ -282,7 +278,7 @@ public class MainActivity extends Activity {
         state.clear();
         state.put("memberEmail", memberEmail);
         state.put("pin",pin);
-        state.put("piType",pinType);
+        state.put("pinType",pinType);
         state.put("pinState", message);
         state.put("timeStamp", ServerValue.TIMESTAMP);
         mState.child(pin).updateChildren(state);
