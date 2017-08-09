@@ -317,7 +317,6 @@ public class MainActivity extends Activity {
                                 mData.child(childSnapshot.getKey()).removeValue();
                             }
                         }
-
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
                         }
@@ -343,14 +342,12 @@ public class MainActivity extends Activity {
             }
         });
     }
-
     // websocket server
     private void startServer() {
         InetAddress inetAddress = getInetAddress();
         if (inetAddress == null) {
             return;
         }
-
         mServer = new MySocketServer(new InetSocketAddress(inetAddress.getHostAddress(), SERVER_PORT));
         mServer.start();
     }
