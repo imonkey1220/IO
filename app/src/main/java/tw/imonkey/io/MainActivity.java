@@ -274,12 +274,12 @@ public class MainActivity extends Activity {
         alert.put("timeStamp", ServerValue.TIMESTAMP);
         mAlert.setValue(alert);
     }
-    private void state(String pin,String pinType,boolean message){
+    private void state(String pin,String pinType,boolean pinState){
         state.clear();
         state.put("memberEmail", memberEmail);
         state.put("pin",pin);
         state.put("pinType",pinType);
-        state.put("pinState", message);
+        state.put("pinState", pinState);
         state.put("timeStamp", ServerValue.TIMESTAMP);
         mState.child(pin).updateChildren(state);
     }
