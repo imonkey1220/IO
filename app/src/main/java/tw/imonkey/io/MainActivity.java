@@ -170,12 +170,12 @@ public class MainActivity extends Activity {
                         public boolean onGpioEdge(Gpio gpio) {
                             try {
                                 input.clear();
-                                input.put(GPIOName[index], GPIO[index].getValue());
+                                input.put(GPIOName[index],!GPIO[index].getValue());
                                 input.put("memberEmail", "Device");
                                 input.put("timeStamp", ServerValue.TIMESTAMP);
-                                alert(GPIOName[index]+"="+GPIO[index].getValue());
-                                log(GPIOName[index]+"="+GPIO[index].getValue());
-                                state(GPIOName[index],"X",GPIO[index].getValue());
+                                alert(GPIOName[index]+"="+!GPIO[index].getValue());
+                                log(GPIOName[index]+"="+!GPIO[index].getValue());
+                                state(GPIOName[index],"X",!GPIO[index].getValue());
 
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -195,8 +195,8 @@ public class MainActivity extends Activity {
             else if (GPIOName[i].charAt(0) == 'Y') {
                 try {
                     GPIO[index] = service.openGpio(PiGPIO[index]);
-                    GPIO[index].setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW);
-                    GPIO[index].setValue(false);
+                    GPIO[index].setDirection(Gpio.DIRECTION_OUT_INITIALLY_HIGH);
+                    GPIO[index].setValue(true);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -217,7 +217,7 @@ public class MainActivity extends Activity {
                 if (snapshot.getValue()!=null) {
                     if (snapshot.getValue().equals(true)) {
                         try {
-                            GPIOMap.get(outpin).setValue(true);
+                            GPIOMap.get(outpin).setValue(false);//
                             alert(outpin + "=" + true);
                             log(outpin + "=" + true);
                             state(outpin,"Y",true);
@@ -226,7 +226,7 @@ public class MainActivity extends Activity {
                         }
                     } else {
                         try {
-                            GPIOMap.get(outpin).setValue(false);
+                            GPIOMap.get(outpin).setValue(true);//
                             log(outpin + "=" + false);
                             alert(outpin + "=" + false);
                             state(outpin,"Y",false);
